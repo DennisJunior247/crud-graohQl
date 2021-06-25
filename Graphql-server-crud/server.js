@@ -2,8 +2,11 @@ const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+
 const resolvers = require("./resover");
-const typeDefs = require("./typeDefs") 
+const typeDefs = require("./typeDefs");
+const dbConnection = require("./dataBase/db");
+
 const app = express();
 dotenv.config();
 
@@ -15,6 +18,9 @@ app.use(cors());
 
 // routes//
 app.use("/", (req, res, next) => res.send("hello"));
+
+//connecting to db//
+dbConnection();
 
 //setting up apollo server with graphql//
 const apolloServer = new ApolloServer({
