@@ -19,6 +19,11 @@ const typeDefs = gql`
   type Query {
     tasks: [Task!]
     task(id: ID!): Task!
+    users: [User!]
+    user(id: ID!): User!
+  }
+  type Mutation {
+    createTask(input: createTaskInput): Task
   }
 
   type User {
@@ -34,15 +39,27 @@ const typeDefs = gql`
     completed: Boolean!
     user: User
   }
+
+  input createTaskInput {
+    name: String!
+    completed: Boolean!
+    userId: ID!
+  }
 `;
 
 const resolvers = {
   Query: {
     tasks: () => tasks,
-    task: (_, { id }) => tasks.find((task) => task.id === id),
+    task: (_, { id }) => tasks.find(({ id }) => id === id),
+    users: () => users,
+    user: (_, { id }) => users.find(({ id }) => id === id),
   },
 
+  Mutation: {
+    createTask: (_, { input }) => tasks.push({ ...input, id: 4 }),
+  },
   Task: { user: ({ userId }) => users.find((user) => user.id === userId) },
+  User: { tasks: ({ id }) => tasks.filter((task) => task.id === id) },
 };
 
 //setting up apollo server with graphql//
