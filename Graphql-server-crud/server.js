@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const resolvers = require("./resover");
 const typeDefs = require("./typeDefs");
-const dbConnection = require("./dataBase/db");
+const dbConnection = require("./dataBase/");
 
 const app = express();
 dotenv.config();
@@ -16,8 +16,7 @@ app.use(express.json());
 //cors//
 app.use(cors());
 
-// routes//
-app.use("/", (req, res, next) => res.send("hello"));
+
 
 //connecting to db//
 dbConnection();
@@ -29,6 +28,9 @@ const apolloServer = new ApolloServer({
 });
 
 apolloServer.applyMiddleware({ app, path: "/graphql" });
+
+// routes//
+app.use("/", (req, res, next) => res.send("hello"));
 
 //connecting to localhost//
 const port = process.env.PORT || 4000;
