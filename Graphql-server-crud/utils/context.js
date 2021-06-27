@@ -4,8 +4,7 @@ module.exports = verifyUser = (req) => {
   try {
     req.email = null;
 
-    const bearerToken =
-      req.headers.auth && req.headers.auth.startWith("Bearer");
+    const bearerToken = req.headers.authorization;
     if (bearerToken) {
       const token = bearerToken.split(" ")[1];
       const payload = jwt.verify(token, process.env.JWT_KEY);

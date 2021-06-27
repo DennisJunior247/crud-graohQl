@@ -24,8 +24,8 @@ dbConnection();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }) => {
-    verifyUser(req);
+  context: async({ req, res }) => {
+   await  verifyUser(req);
     return {
       email: req.email,
     };
